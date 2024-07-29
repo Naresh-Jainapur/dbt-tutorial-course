@@ -30,8 +30,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 # directory as views. These settings can be overridden in the individual model
 # files using the `{{ config(...) }}` macro.
 models:
-    Tuts:
-     +materialized: table #default all SQL models to be materialized as tables
-     +persist_docs: # Writes all of our column descriptions into BigQuery!
-        realation: true
-        columns: true
+  Tuts:
+    +materialized: table #default all SQL models to be materialized as tables
+    +persist_docs: # Writes all of our column descriptions into BigQuery!
+      realation: true
+      columns: true
+    # Table deleted 168 hours (7 days) after creation
+    # Note, for incremental models this does not reset each run!
+    +hours_to_expiration: 168
+
+tests:
+  Tuts:
+    +severity: warn
+
+
+
